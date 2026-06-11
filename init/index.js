@@ -11,7 +11,7 @@ main()
 });
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+  await mongoose.connect('mongodb+srv://vikashkushwah6260510031_db_user:IupqhSJg020074gm@cluster0.yvvv52o.mongodb.net/?appName=Cluster0');
 
 };
 
