@@ -1,21 +1,40 @@
 const Listing = require('../models/listing.js');
 
-module.exports.index = async(req,res)=>{
-   const { searchQuery } = req.query;
+module.exports.index = async (req, res) => {
+  try {
+    const { searchQuery, category } = req.query;
 
-if (searchQuery) {
-  const allListings = await Listing.find({
-    country: { $regex: searchQuery, $options: "i" }
-  });
-  if(allListings.length === 0){
-    req.flash("error", "No listings found for the specified country.");
-    return res.redirect("/listings");
+    let filter = {};
+
+    //Category filter (exact match)
+    if (category) {
+      filter.category = category.trim();
+    }
+
+    //Search filter
+    if (searchQuery) {
+      filter.country = { $regex: searchQuery.trim(), $options: "i" };
+    }
+
+    const allListings = await Listing.find(filter);
+
+    //Handle empty result
+    if (allListings.length === 0) {
+      req.flash("error", "No listings found.");
+      return res.redirect("/listings");
+    }
+
+    res.render("listings/index.ejs", {
+      allListings,
+      category,
+      searchQuery
+    });
+
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Something went wrong.");
+    res.redirect("/listings");
   }
-  return res.render("listings/index.ejs", { allListings });
-} else {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-}
 };
 
 module.exports.renderNewForm=  (req,res)=>{
@@ -26,7 +45,7 @@ module.exports.showListing = async(req,res)=>{
     let {id} = req.params;
     
     const listing = await Listing.findById(id).populate({path: "reviews", populate: {path: "author"}}).populate("Owner");
-    
+    //console.log(listing);
     if(!listing){
         req.flash("error", "Listing not found!");
         return res.redirect("/listings");

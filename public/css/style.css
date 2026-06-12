@@ -118,28 +118,6 @@ body {
     background-color: #f5f5f5;
 }
 /* SeearchBar */
-.btn-search {
-    background-color: #ff5a5f;
-    border-color: #ff5a5f;
-    color: white;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-  .btn-search:hover {
-    background-color: #ff5a5f;
-    border-color: #ff5a5f;
-    color: white;
-  }
-  .btn-search i{
-    display:inline;
-    margin-right: 0.5rem;
-  }
-  .search-inp {
-    border-radius: 25px;
-    width: 250px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 0.9rem;
-  }
 
   /* Filters  */
   #filters{
@@ -164,6 +142,10 @@ body {
     .filter p{
         font-size: 14px;
         font-weight: 500;
+    }
+    .filter-link{
+         text-decoration: none;
+         color: #222222;
     }
     .taxInfo{
         display: none;
